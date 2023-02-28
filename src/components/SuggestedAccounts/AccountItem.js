@@ -24,11 +24,11 @@ function AccountItem() {
         <div>
             <Tippy interactive delay={[800, 0]} offset={[-20, 0]} placement="bottom" render={renderPreview}>
                 <div className={cx('account-item')}>
-                    <img
+                    {/* <img
                         className={cx('avatar')}
                         src="https://lh3.googleusercontent.com/ogw/AAEL6sg7rcYxEDnJJOcUuQNrjoiw6KCmBkfXr2MEIQnkgg=s64-c-mo"
                         alt=""
-                    />
+                    /> */}
                     <div className={cx('item-info')}>
                         <p className={cx('nickname')}>
                             <strong>quocnguyenphu</strong>
