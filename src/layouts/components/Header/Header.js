@@ -57,7 +57,6 @@ const MENU_ITEMS = [
 ];
 
 function Header() {
-    const currentUser = false;
     const token = localStorage.getItem('access_token');
 
     // Handle logic
@@ -135,7 +134,7 @@ function Header() {
                         </>
                     )}
 
-                    <Menu items={currentUser ? userMenu : MENU_ITEMS} onChange={handleMenuChange}>
+                    <Menu items={token ? userMenu : MENU_ITEMS} onChange={handleMenuChange}>
                         {token ? (
                             <Image
                                 className={cx('user-avatar')}
