@@ -57,7 +57,8 @@ const MENU_ITEMS = [
 ];
 
 function Header() {
-    const currentUser = true;
+    const currentUser = false;
+    const token = localStorage.getItem('access_token');
 
     // Handle logic
     const handleMenuChange = (menuItem) => {
@@ -98,13 +99,13 @@ function Header() {
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
                 <Link to={config.routes.home} className={cx('logo-link')}>
-                    <img src={images.logo} alt="Tiktok" />
+                    <img src={images.logo} alt="logo" />
                 </Link>
 
                 <Search />
 
                 <div className={cx('actions')}>
-                    {currentUser ? (
+                    {token ? (
                         <>
                             <Tippy delay={[0, 50]} content="Upload video" placement="bottom">
                                 <button className={cx('action-btn')}>
@@ -125,13 +126,17 @@ function Header() {
                         </>
                     ) : (
                         <>
-                            <Button text>Upload</Button>
-                            <Button primary>Log in</Button>
+                            <Link to={config.routes.login}>
+                                <Button text>Upload</Button>
+                            </Link>
+                            <Link to={config.routes.login}>
+                                <Button primary>Log in</Button>
+                            </Link>
                         </>
                     )}
 
                     <Menu items={currentUser ? userMenu : MENU_ITEMS} onChange={handleMenuChange}>
-                        {currentUser ? (
+                        {token ? (
                             <Image
                                 className={cx('user-avatar')}
                                 src="https://files.fullstack.edu.vn/f8-prod/user_avatars/1/623d4b2d95cec.png"
