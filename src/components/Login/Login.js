@@ -14,12 +14,9 @@ import {
   import { Button } from 'antd';
   
     import React, {useState, useEffect} from "react";
-    import firebase from 'firebase/compat/app';
-    import 'firebase/compat/auth';
-    import 'firebase/compat/firestore';
     import {signInWithPopup} from "firebase/auth";
-    import firebaseConfig from "./config.js";
     import { useNavigate } from "react-router-dom";
+    import { auth,provider } from "./config";
 
 
     const iconStyles = {
@@ -36,11 +33,10 @@ import {
       const [value, setValue] = useState('')
         const navigator = useNavigate();
 
-    firebase.initializeApp(firebaseConfig);
-      const signWithGoogle =  async () => {
-        const provider = new firebase.auth.GoogleAuthProvider();
-        const result = await firebase.auth().signInWithPopup(provider);
-        navigator('/');
+        const signWithGoogle =  () => {
+            signInWithPopup(auth,provider).then((data) => {
+                    navigator('/');
+              })
           }
       
 
