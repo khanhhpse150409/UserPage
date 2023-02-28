@@ -7,21 +7,21 @@ import React, { useEffect } from 'react';
 // import firebase from 'firebase/app';
 import 'firebase/auth';
 // import { authService } from '../../Service/authService';
-import { authService } from '~/services/authService';
-import { useNavigate } from 'react-router-dom';
+// import { authService } from '~/services/authService';
+// import { useNavigate } from 'react-router-dom';
 import images from '~/assets/images';
 
 const Login = () => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
-    const signWithGoogle = async () => {
-        await authService.loginWithGoogle();
-        navigate('/');
-    };
+    // const signWithGoogle = async () => {
+    //     await authService.loginWithGoogle();
+    //     navigate('/');
+    // };
 
-    useEffect(() => {
-        localStorage.clear();
-    });
+    // useEffect(() => {
+    //     localStorage.clear();
+    // });
 
     return (
         <>
@@ -70,9 +70,9 @@ const Login = () => {
                                 Nhớ mật khẩu
                             </ProFormCheckbox>
 
-                            <Button onClick={signWithGoogle} style={{ float: 'right' }}>
+                            {/* <Button onClick={signWithGoogle} style={{ float: 'right' }}>
                                 Signin With Google
-                            </Button>
+                            </Button> */}
                             {/* <SubmitButton>Đăng nhập</SubmitButton> */}
                         </div>
                     </LoginForm>
