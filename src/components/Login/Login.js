@@ -3,10 +3,9 @@ import { LoginForm, ProFormCheckbox, ProFormText, ProConfigProvider } from '@ant
 import { Button } from 'antd';
 
 import React, { useEffect } from 'react';
-// import { signInWithPopup } from 'firebase/auth';
 import { authService } from '~/services/authService';
 import { useNavigate } from 'react-router-dom';
-// import { auth, provider } from './config';
+import images from '~/assets/images';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -26,7 +25,7 @@ const Login = () => {
                 <div style={{ backgroundColor: 'white', marginTop: '100px' }}>
                     <LoginForm
                         submitText="Đăng nhập"
-                        logo="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
+                        logo={images.logo}
                         title="Drashboard"
                         subTitle="Chào mừng bạn đến với trang CWE"
                     >
@@ -70,7 +69,6 @@ const Login = () => {
                             <Button onClick={signWithGoogle} style={{ float: 'right' }}>
                                 Signin With Google
                             </Button>
-                            {/* <SubmitButton>Đăng nhập</SubmitButton> */}
                         </div>
                     </LoginForm>
                 </div>

@@ -16,7 +16,7 @@ const tailLayout = {
     },
 };
 
-const EditStudent = () => {
+const EditStudent = ({ checkInformation }) => {
     const idStudent = localStorage.getItem('student_id');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [file, setFile] = useState(null);
@@ -117,7 +117,7 @@ const EditStudent = () => {
     return (
         <>
             {contextHolder}
-            <Button icon={<EditOutlined />} onClick={showModal}>
+            <Button icon={<EditOutlined />} onClick={showModal} disabled={!checkInformation}>
                 Edit
             </Button>
             <Modal
