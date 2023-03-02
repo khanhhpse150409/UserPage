@@ -76,6 +76,11 @@ function Header() {
             to: `/@${localStorage.getItem('student_id')}`,
         },
         {
+            icon: <FontAwesomeIcon icon={faUser} />,
+            title: 'View details project',
+            to: `/ProjectDetail`,
+        },
+        {
             icon: <FontAwesomeIcon icon={faCoins} />,
             title: 'Get coins',
             to: '/coin',

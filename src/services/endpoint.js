@@ -1,5 +1,6 @@
 export const API_PROJECTS = {
     LIST_PROJECTS: '/v1/projects',
+    GET_PROJECTS: '/v1/projects/{id}'
 };
 
 export const API_STUDENTS = {
