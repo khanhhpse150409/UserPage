@@ -22,7 +22,9 @@ export const authService = {
             });
             if (response.ok) {
                 const data = await response.json();
+                console.log('data', data);
                 // Save the token and user type in local storage
+                localStorage.setItem('student_id', data.student.student_id);
                 localStorage.setItem('access_token', data.access_token);
             } else {
                 throw new Error('Failed to log in');

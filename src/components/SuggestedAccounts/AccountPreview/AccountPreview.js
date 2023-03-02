@@ -10,7 +10,7 @@ const cx = classNames.bind(styles);
 function AccountPreview() {
     return (
         <div className={cx('wrapper')}>
-            {/* <div className={cx('header')}>
+            <div className={cx('header')}>
                 <img
                     className={cx('avatar')}
                     src="https://lh3.googleusercontent.com/ogw/AAEL6sg7rcYxEDnJJOcUuQNrjoiw6KCmBkfXr2MEIQnkgg=s64-c-mo"
@@ -19,13 +19,13 @@ function AccountPreview() {
                 <Button className={cx('follow-btn')} primary>
                     Follow
                 </Button>
-            </div> */}
+            </div>
             <div className={cx('body')}>
                 <p className={cx('nickname')}>
-                    <strong>quocnguyenphu</strong>
+                    <strong>nguyenthanhvien</strong>
                     <FontAwesomeIcon className={cx('check')} icon={faCheckCircle} />
                 </p>
-                <p className={cx('name')}>Quốc Nguyễn Phú</p>
+                <p className={cx('name')}>Nguyễn Thanh Viên</p>
                 <p className={cx('analytics')}>
                     <strong className={cx('value')}>8.2M </strong>
                     <span className={cx('label')}>Followers</span>
