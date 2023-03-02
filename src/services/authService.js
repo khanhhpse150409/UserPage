@@ -25,6 +25,7 @@ export const authService = {
                 console.log('data', data);
                 // Save the token and user type in local storage
                 localStorage.setItem('student_id', data.student.student_id);
+                localStorage.setItem('avatar', data.student.avatar);
                 localStorage.setItem('access_token', data.access_token);
             } else {
                 throw new Error('Failed to log in');

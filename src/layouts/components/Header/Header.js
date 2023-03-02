@@ -73,7 +73,7 @@ function Header() {
         {
             icon: <FontAwesomeIcon icon={faUser} />,
             title: 'View profile',
-            to: '/@hoaa',
+            to: `/@${localStorage.getItem('student_id')}`,
         },
         {
             icon: <FontAwesomeIcon icon={faCoins} />,
@@ -138,8 +138,8 @@ function Header() {
                         {token ? (
                             <Image
                                 className={cx('user-avatar')}
-                                src="https://lh3.googleusercontent.com/ogw/AAEL6sg7rcYxEDnJJOcUuQNrjoiw6KCmBkfXr2MEIQnkgg=s64-c-mo"
-                                alt="Nguyễn Thanh Viên"
+                                src={localStorage.getItem('student_id')}
+                                alt="avatar"
                             />
                         ) : (
                             <button className={cx('more-btn')}>
