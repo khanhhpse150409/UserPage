@@ -138,8 +138,8 @@ function Header() {
                         {token ? (
                             <Image
                                 className={cx('user-avatar')}
-                                src="https://files.fullstack.edu.vn/f8-prod/user_avatars/1/623d4b2d95cec.png"
-                                alt="Nguyen Van A"
+                                src="https://lh3.googleusercontent.com/ogw/AAEL6sg7rcYxEDnJJOcUuQNrjoiw6KCmBkfXr2MEIQnkgg=s64-c-mo"
+                                alt="Nguyễn Thanh Viên"
                             />
                         ) : (
                             <button className={cx('more-btn')}>
