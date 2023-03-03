@@ -55,12 +55,13 @@ const EditStudent = ({ checkInformation }) => {
 
     // Handle form submission
     const onFinish = (values) => {
+        console.log('file', file);
         const dataStudent = {
             student_id: values.student_id || '',
             student_name: values.name || '',
             avatar: file || '',
         };
-
+        console.log('dataStudent', dataStudent);
         editStudent(dataStudent)
             .then((payload) => {
                 if (payload.msg === '1 student update') {
@@ -103,6 +104,7 @@ const EditStudent = ({ checkInformation }) => {
         formData.append('file', event.target.files[0]);
         uploadFile(formData)
             .then((payload) => {
+                console.log('payload.url', payload.url);
                 setFile(payload.url);
             })
             .catch((err) => {
