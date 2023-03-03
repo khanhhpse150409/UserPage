@@ -2,8 +2,8 @@ import classNames from 'classnames/bind';
 import styles from './Project.module.scss';
 import { Avatar, List, Space } from 'antd';
 import { StarOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons';
-import React, { useState, useEffect } from 'react';
-import { getProjectDetail } from './fetcher';
+import React from 'react';
+// import { getProjectDetail } from './fetcher';
 
 const data = Array.from({
     length: 23,
@@ -26,7 +26,6 @@ const IconText = ({ icon, text }) => (
 const cx = classNames.bind(styles);
 
 const ProjectDetail = () => {
-    
     return (
         <List
             className={cx('wrapper')}
@@ -46,36 +45,31 @@ const ProjectDetail = () => {
             }
             renderItem={(item) => (
                 <>
-
-                <List.Item
-                    
-                    key={item.title}
-                    actions={[
-                        <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
-                        <IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" />,
-                        <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
-                    ]}
-                    >
-                    
-                    <List.Item.Meta
-                        avatar={<Avatar src={item.avatar} />}
-                        title={<a href={item.href}>{item.title}</a>}
-                        description={item.description}
-                    />
-                    {item.content}
-                    <div className='item_img' style={{paddingRight: "150px"}}>
                     <List.Item
-                    extra={
-                        <img
-                            alt="logo"
-                            src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                        key={item.title}
+                        actions={[
+                            <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
+                            <IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" />,
+                            <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
+                        ]}
+                    >
+                        <List.Item.Meta
+                            avatar={<Avatar src={item.avatar} />}
+                            title={<a href={item.href}>{item.title}</a>}
+                            description={item.description}
                         />
-                        
-                    }
-                    />
-                    </div>
-                </List.Item>
-                
+                        {item.content}
+                        <div className="item_img" style={{ paddingRight: '150px' }}>
+                            <List.Item
+                                extra={
+                                    <img
+                                        alt="logo"
+                                        src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                                    />
+                                }
+                            />
+                        </div>
+                    </List.Item>
                 </>
             )}
         />

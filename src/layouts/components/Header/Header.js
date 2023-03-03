@@ -20,8 +20,11 @@ import styles from './Header.module.scss';
 import images from '~/assets/images';
 import Menu from '~/components/Popper/Menu';
 import { InboxIcon, MessageIcon, UploadIcon } from '~/components/Icons';
+import { Modal } from 'antd';
 import Image from '~/components/Image';
 import Search from '../Search';
+import PostProject from '~/components/PostProject/PostProject';
+import { useState } from 'react';
 
 const cx = classNames.bind(styles);
 
@@ -57,6 +60,8 @@ const MENU_ITEMS = [
 ];
 
 function Header() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     const token = localStorage.getItem('access_token');
 
     // Handle logic
@@ -64,6 +69,10 @@ function Header() {
         switch (menuItem.type) {
             case 'language':
                 // Handle change language
+                break;
+            case 'logout':
+                localStorage.clear();
+                window.loaction.reload();
                 break;
             default:
         }
@@ -94,67 +103,94 @@ function Header() {
         {
             icon: <FontAwesomeIcon icon={faSignOut} />,
             title: 'Log out',
-            to: '/logout',
+            to: '/',
+            type: 'logout',
             separate: true,
         },
     ];
 
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+
     return (
-        <header className={cx('wrapper')}>
-            <div className={cx('inner')}>
-                <Link to={config.routes.home} className={cx('logo-link')}>
-                    <img src={images.logo} alt="logo" />
-                </Link>
+        <>
+            <header className={cx('wrapper')}>
+                <div className={cx('inner')}>
+                    <Link to={config.routes.home} className={cx('logo-link')}>
+                        <img src={images.logo} alt="logo" />
+                    </Link>
 
-                <Search />
+                    <Search />
 
-                <div className={cx('actions')}>
-                    {token ? (
-                        <>
-                            <Tippy delay={[0, 50]} content="Upload video" placement="bottom">
-                                <button className={cx('action-btn')}>
-                                    <UploadIcon />
-                                </button>
-                            </Tippy>
-                            <Tippy delay={[0, 50]} content="Message" placement="bottom">
-                                <button className={cx('action-btn')}>
-                                    <MessageIcon />
-                                </button>
-                            </Tippy>
-                            <Tippy delay={[0, 50]} content="Inbox" placement="bottom">
-                                <button className={cx('action-btn')}>
-                                    <InboxIcon />
-                                    <span className={cx('badge')}>12</span>
-                                </button>
-                            </Tippy>
-                        </>
-                    ) : (
-                        <>
-                            <Link to={config.routes.login}>
-                                <Button text>Upload</Button>
-                            </Link>
-                            <Link to={config.routes.login}>
-                                <Button primary>Log in</Button>
-                            </Link>
-                        </>
-                    )}
-
-                    <Menu items={token ? userMenu : MENU_ITEMS} onChange={handleMenuChange}>
+                    <div className={cx('actions')}>
                         {token ? (
-                            <Image
-                                className={cx('user-avatar')}
-                                src={localStorage.getItem('student_id')}
-                                alt="avatar"
-                            />
+                            <>
+                                <Tippy delay={[0, 50]} content="Upload project" placement="bottom">
+                                    <button className={cx('action-btn')} onClick={showModal}>
+                                        <UploadIcon />
+                                    </button>
+                                </Tippy>
+                                <Tippy delay={[0, 50]} content="Message" placement="bottom">
+                                    <button className={cx('action-btn')}>
+                                        <MessageIcon />
+                                    </button>
+                                </Tippy>
+                                <Tippy delay={[0, 50]} content="Inbox" placement="bottom">
+                                    <button className={cx('action-btn')}>
+                                        <InboxIcon />
+                                        <span className={cx('badge')}>12</span>
+                                    </button>
+                                </Tippy>
+                            </>
                         ) : (
-                            <button className={cx('more-btn')}>
-                                <FontAwesomeIcon icon={faEllipsisVertical} />
-                            </button>
+                            <>
+                                <Link to={config.routes.login}>
+                                    <Button text>Upload</Button>
+                                </Link>
+                                <Link to={config.routes.login}>
+                                    <Button primary>Log in</Button>
+                                </Link>
+                            </>
                         )}
-                    </Menu>
+
+                        <Menu items={token ? userMenu : MENU_ITEMS} onChange={handleMenuChange}>
+                            {token ? (
+                                <Image
+                                    className={cx('user-avatar')}
+                                    src={localStorage.getItem('student_id')}
+                                    alt="avatar"
+                                />
+                            ) : (
+                                <button className={cx('more-btn')}>
+                                    <FontAwesomeIcon icon={faEllipsisVertical} />
+                                </button>
+                            )}
+                        </Menu>
+                    </div>
                 </div>
-            </div>
-        </header>
+            </header>
+            <Modal
+                open={isModalOpen}
+                onCancel={handleCancel}
+                title="Create a project"
+                footer={[
+                    <Button
+                        key="cancel"
+                        onClick={() => {
+                            setIsModalOpen(false);
+                        }}
+                    >
+                        Cancel
+                    </Button>,
+                ]}
+            >
+                <PostProject />
+            </Modal>
+        </>
     );
 }
 
