@@ -51,20 +51,20 @@ const EditStudent = ({ checkInformation }) => {
         name: dataStudent?.student_name || '',
         avatar: dataStudent?.avatar || '',
         email: dataStudent?.email || '',
+        portfolio: dataStudent?.portfolio || '',
     };
 
     // Handle form submission
     const onFinish = (values) => {
-        console.log('file', file);
-        const dataStudent = {
+        const student = {
             student_id: values.student_id || '',
             student_name: values.name || '',
-            avatar: file || '',
+            avatar: file || dataStudent?.avatar,
+            portfolio: values.portfolio || '',
         };
-        console.log('dataStudent', dataStudent);
-        editStudent(dataStudent)
+        editStudent(student)
             .then((payload) => {
-                if (payload.msg === '1 student update') {
+                if (payload.msg === 'Update profile successfully') {
                     openNotification('update successful');
                     setIsModalOpen(false);
                 } else {
@@ -73,7 +73,6 @@ const EditStudent = ({ checkInformation }) => {
             })
             .catch((err) => {
                 openNotification('update failed');
-                console.log('err', err);
             });
     };
 
@@ -104,7 +103,6 @@ const EditStudent = ({ checkInformation }) => {
         formData.append('file', event.target.files[0]);
         uploadFile(formData)
             .then((payload) => {
-                console.log('payload.url', payload.url);
                 setFile(payload.url);
             })
             .catch((err) => {
@@ -156,6 +154,17 @@ const EditStudent = ({ checkInformation }) => {
                     <Form.Item
                         label="Name"
                         name="name"
+                        rules={[
+                            {
+                                required: true,
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        label="Portfolio"
+                        name="portfolio"
                         rules={[
                             {
                                 required: true,

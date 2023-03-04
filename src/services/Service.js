@@ -110,6 +110,7 @@ export const post =
         return fetch(`${getGateway(gw)}${url}`, {
             method: 'POST',
             headers: {
+                accept: 'application/json',
                 Authorization: `Bearer ${idToken}`,
                 'Content-Type': 'application/json',
             },

@@ -159,7 +159,7 @@ const Profile = () => {
                         xxl: 116,
                     }}
                     className={cx('avatar')}
-                    src={dataStudent.Avatar}
+                    src={dataStudent.avatar}
                 />
                 <div className={cx('detailProfile')}>
                     <strong className={cx('userName')}>{dataStudent.student_name}</strong>
