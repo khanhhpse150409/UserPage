@@ -148,7 +148,7 @@ function Header() {
                             {token ? (
                                 <Image
                                     className={cx('user-avatar')}
-                                    src={localStorage.getItem('student_id')}
+                                    src={localStorage.getItem('avatar')}
                                     alt="avatar"
                                 />
                             ) : (

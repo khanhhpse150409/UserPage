@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, Input, notification, Space, Spin, Modal } from 'antd';
+import { Button, Form, Input, notification, Space, Spin, Modal, Avatar } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 import { useState, useEffect } from 'react';
 import { getStudent, editStudent, uploadFile } from './fetcher';
@@ -197,6 +197,20 @@ const EditStudent = ({ checkInformation }) => {
                     </Form.Item>
                     <Form.Item label="Avatar">
                         <input type="file" onChange={handleChange} />
+                        {file ? (
+                            <Avatar
+                                size={{
+                                    xs: 48,
+                                    sm: 64,
+                                    md: 80,
+                                    lg: 116,
+                                    xl: 116,
+                                    xxl: 116,
+                                }}
+                                src={file}
+                                style={{ marginTop: 30 }}
+                            />
+                        ) : null}
                     </Form.Item>
 
                     <Form.Item {...tailLayout}>

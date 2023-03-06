@@ -1,4 +1,4 @@
-import { Button, Form, Input, Select, notification, Modal } from 'antd';
+import { Button, Form, Input, Select, notification, Modal, Image } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { CreateProject, ListMajors, ListCategory, uploadFile } from './fetcher';
 import { UploadIcon } from '~/components/Icons';
@@ -155,6 +155,7 @@ const PostProject = () => {
 
                     <MyFormItem label="Image">
                         <input type="file" onChange={handleChange} />
+                        {file ? <Image width={200} src={file} style={{ marginTop: 30 }} /> : null}
                     </MyFormItem>
 
                     <Button type="primary" htmlType="submit">
