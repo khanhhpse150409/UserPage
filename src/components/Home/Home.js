@@ -5,6 +5,8 @@ import { StarOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons';
 import React, { useState, useEffect } from 'react';
 import { getListProject } from './fetcher';
 
+const cx = classNames.bind(styles);
+
 const IconText = ({ icon, text }) => (
     <Space>
         {React.createElement(icon)}
@@ -12,13 +14,10 @@ const IconText = ({ icon, text }) => (
     </Space>
 );
 
-const cx = classNames.bind(styles);
-
 const Home = () => {
     const [listDataProject, setListDataProject] = useState(null);
     const [loading, setLoading] = useState(true);
-
-    const fetchListDataProject = () => {
+    useEffect(() => {
         getListProject()
             .then((payload) => {
                 setListDataProject(payload?.projects.rows);
@@ -27,11 +26,6 @@ const Home = () => {
             .catch((err) => {
                 console.log('err', err);
             });
-    };
-
-    useEffect(() => {
-        fetchListDataProject();
-        // window.location.reload();
     }, []);
 
     if (loading) {
@@ -70,8 +64,8 @@ const Home = () => {
                     }
                 >
                     <List.Item.Meta
-                        avatar={<Avatar src={item.project_student.avatar} />}
-                        title={<a href={`/@${item.project_student.student_id}`}>{item.project_student.student_name}</a>}
+                        avatar={<Avatar src={item.project_poster.avatar} />}
+                        title={<a href={`/@${item.project_poster.student_id}`}>{item.project_poster.student_name}</a>}
                         description={item.project_name}
                     />
                     {item.description}
