@@ -13,6 +13,7 @@ const Login = () => {
     const signWithGoogle = async () => {
         await authService.loginWithGoogle();
         navigate('/');
+        window.location.reload(false);
     };
 
     useEffect(() => {
