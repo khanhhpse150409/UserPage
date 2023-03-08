@@ -1,8 +1,7 @@
-import { ProjectDetailComponent } from '~/components/ProjectDetail';
+import { ProjectDetailComponent } from '~/components/projectDetail';
 
 const ProjectDetail = () => {
-    // return <ProjectDetailComponent />;
-    return <h1>123</h1>;
+    return <ProjectDetailComponent />;
 };
 
 export default ProjectDetail;
