@@ -11,7 +11,7 @@ import Upload from '~/pages/Upload';
 import Search from '~/pages/Search';
 import Live from '~/pages/Live';
 import Login from '~/pages/Login';
-import ProjectDetail from '~/pages/projectDetail';
+import ProjectDetail from '~/pages/ProjectDetail';
 
 // Public routes
 const publicRoutes = [

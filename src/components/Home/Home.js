@@ -66,7 +66,7 @@ const Home = () => {
                     <List.Item.Meta
                         avatar={<Avatar src={item.project_poster.avatar} />}
                         title={<a href={`/@${item.project_poster.student_id}`}>{item.project_poster.student_name}</a>}
-                        description={item.project_name}
+                        description={<a href={`/projectDetail/@${item.project_id}`}>{item.project_name}</a>}
                     />
                     {item.description}
                 </List.Item>

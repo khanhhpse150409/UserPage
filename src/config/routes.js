@@ -6,7 +6,7 @@ const routes = {
     search: '/search',
     live: '/live',
     login: '/login',
-    projectDetail: '/projectDetail',
+    projectDetail: '/projectDetail/@:AB',
 };
 
 export default routes;

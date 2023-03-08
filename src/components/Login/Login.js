@@ -27,7 +27,7 @@ const Login = () => {
                     <LoginForm
                         submitText="Đăng nhập"
                         logo={images.logo}
-                        title="Drashboard"
+                        title="Welcome"
                         subTitle="Chào mừng bạn đến với trang CWE"
                     >
                         <ProFormText

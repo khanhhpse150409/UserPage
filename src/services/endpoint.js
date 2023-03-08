@@ -1,6 +1,6 @@
 export const API_PROJECTS = {
     LIST_PROJECTS_HOME: '/v1/projects/home',
-    GET_PROJECTS: '/v1/projects/{id}',
+    GET_PROJECTS: '/v1/projects',
     CREATE_PROJECTS: '/v1/projects',
 };
 
