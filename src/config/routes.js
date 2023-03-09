@@ -7,6 +7,8 @@ const routes = {
     live: '/live',
     login: '/login',
     projectDetail: '/projectDetail/@:projectId',
+    application: '/application',
+    myproject: '/myproject'
 };
 
 export default routes;

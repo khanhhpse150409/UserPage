@@ -16,13 +16,13 @@ function Sidebar() {
                     <>
                         <MenuItem
                             title="Apply"
-                            to={config.routes.following}
+                            to={config.routes.application}
                             icon={<UserGroupIcon />}
                             activeIcon={<UserGroupActiveIcon />}
                         />
                         <MenuItem
                             title="My Projects"
-                            to={config.routes.live}
+                            to={config.routes.myproject}
                             icon={<SnippetsOutlined />}
                             activeIcon={<SnippetsOutlined style={{ color: 'red' }} />}
                         />
