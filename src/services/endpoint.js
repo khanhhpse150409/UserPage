@@ -22,3 +22,6 @@ export const API_MAJORS = {
 export const API_CATEGORY = {
     LIST_CATEGORY: '/v1/categories',
 };
+export const API_APPLICATION = {
+    POST_APPLICATION: '/api/v1/applications',
+}

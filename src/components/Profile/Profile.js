@@ -149,7 +149,7 @@ const Profile = () => {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('profile')}>
-                <Avatar
+            <Avatar
                     size={{
                         xs: 48,
                         sm: 64,
@@ -164,6 +164,7 @@ const Profile = () => {
                 <div className={cx('detailProfile')}>
                     <strong className={cx('userName')}>{dataStudent.student_name}</strong>
                     <p className={cx('userEmail')}>{dataStudent.email}</p>
+                    <p className={cx('major')}>Major: {dataStudent.student_major.major_name}</p>
                     <EditStudent checkInformation={checkInformation} />
                 </div>
             </div>
