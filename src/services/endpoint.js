@@ -3,7 +3,9 @@ export const API_PROJECTS = {
     GET_PROJECTS: '/v1/projects',
     CREATE_PROJECTS: '/v1/projects',
 };
-
+export const API_MYPROJECTS = {
+    GET_MYPROJECTS: '/v1/projects'
+}
 export const API_STUDENTS = {
     LIST_STUDENTS: '/v1/students',
     GET_STUDENTS: '/v1/students',
