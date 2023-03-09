@@ -25,5 +25,7 @@ export const API_CATEGORY = {
     LIST_CATEGORY: '/v1/categories',
 };
 export const API_APPLICATION = {
+    GET_APPLICATION: '/v1/applications',
     POST_APPLICATION: '/v1/applications',
+    POST_TO_PROJECT: '/v1/applications/accept'
 }

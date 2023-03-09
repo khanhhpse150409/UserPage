@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './Project.module.scss';
-import { Avatar, List, Space, Spin, Button } from 'antd';
+import { Avatar, List, Space, Spin, Button, notification } from 'antd';
 import { StarOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons';
 import React from 'react';
 import { useParams } from 'react-router-dom';
@@ -36,6 +36,15 @@ const ProjectDetail = () => {
     const [loading, setLoading] = useState(true);
     console.log(projectId);
     const [applied, setApplied] = useState(false);
+    const [api, contextHolder] = notification.useNotification();
+
+    const openNotification = (placement) => {
+        api.info({
+            message: `Notification ${placement}`,
+            placement,
+        });
+    };
+
     useEffect(() => {
         getProjectDetail(projectId)
             .then((payload) => {
@@ -59,17 +68,24 @@ const ProjectDetail = () => {
     const handleApply = () => {
         postApplication(projectId)
             .then((payload) => {
-                console.log(payload);
-                setApplied(true);
+                if(payload.msg === 'Apply successfully'){
+                    openNotification('Apply successful!');
+                    console.log(payload);
+                    setApplied(true);
+                }else{
+                    openNotification('You have already applied this project!');
+                }
             })
             .catch((err) =>{
-                console.log('err', err);
+                openNotification('Apply failed!');
             }) 
         // Gửi yêu cầu đến API để apply project
         // Nếu thành công, setApplied(true)
         // Nếu không thành công, hiển thị thông báo lỗi
       }
     return (
+        <>
+        {contextHolder}
         <List
             className={cx('wrapper')}
             itemLayout="vertical"
@@ -112,6 +128,7 @@ const ProjectDetail = () => {
                     </List.Item>
             )}
         />
+        </>
     );
 };
 
