@@ -83,7 +83,7 @@ const Application = () => {
                         <p>{`Url: ${item.application_project.url}`}</p>
                     </div>
                     <div className="item_img" style={{ paddingRight: '150px' }}>
-                        <img src={item.image} alt="project" style={{ maxWidth: '100%', maxHeight: '300px' }} />
+                        <img src={item.application_project.image} alt="project" style={{ maxWidth: '100%', maxHeight: '300px' }} />
                     </div>
                 </List.Item>
             )}
