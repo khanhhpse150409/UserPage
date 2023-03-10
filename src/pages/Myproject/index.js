@@ -1,7 +1,7 @@
 import { MyprojectComponent } from '~/components/Myproject';
 
-const ProjectDetail = () => {
+const Myproject = () => {
     return <MyprojectComponent />;
 };
 
-export default ProjectDetail;
+export default Myproject;

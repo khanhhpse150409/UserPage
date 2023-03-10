@@ -12,8 +12,8 @@ import Search from '~/pages/Search';
 import Live from '~/pages/Live';
 import Login from '~/pages/Login';
 import ProjectDetail from '~/pages/ProjectDetail';
-import Application from '~/components/Application/Application';
-import Myproject from '~/components/Myproject/Myproject';
+import Application from '~/pages/Application';
+import Myproject from '~/pages/Myproject';
 
 // Public routes
 const publicRoutes = [

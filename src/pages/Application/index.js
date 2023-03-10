@@ -1,7 +1,7 @@
 import { ApplicationComponent } from '~/components/Application';
 
-const ProjectDetail = () => {
+const Application = () => {
     return <ApplicationComponent />;
 };
 
-export default ProjectDetail;
+export default Application;
