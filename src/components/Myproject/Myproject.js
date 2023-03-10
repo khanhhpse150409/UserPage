@@ -66,7 +66,6 @@ const Myproject = () => {
     const handleCancel = () => {
         setIsModalOpen(false);
     };
-    console.log(studentsApply);
     return (
         <>
             <List
