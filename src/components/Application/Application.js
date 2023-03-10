@@ -70,7 +70,9 @@ const Application = () => {
                                 <Avatar src={item.application_student.avatar} />
                             </a>
                         }
+                        // eslint-disable-next-line jsx-a11y/anchor-is-valid
                         title={<a>{item.application_project.project_name}</a>}
+                        // eslint-disable-next-line jsx-a11y/anchor-is-valid
                         projectName={<a>{item.project_name}</a>}
                         description={item.application_project.description}
                     />

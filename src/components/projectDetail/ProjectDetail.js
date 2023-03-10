@@ -99,6 +99,7 @@ const ProjectDetail = () => {
                         <List.Item.Meta
                             avatar={<Avatar src={item.project_poster.avatar} />}
                             title={<a href={item.url}>{item.project_poster.student_name}</a>}
+                            // eslint-disable-next-line jsx-a11y/anchor-is-valid
                             projectName={<a>{item.project_name}</a>}
                             description={item.description}
                         />
