@@ -1,4 +1,4 @@
-import { ProjectDetailComponent } from '~/components/ProjectDetail';
+import { ProjectDetailComponent } from '~/components/projectDetail';
 
 const ProjectDetail = () => {
     return <ProjectDetailComponent />;
