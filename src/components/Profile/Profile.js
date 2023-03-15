@@ -165,6 +165,7 @@ const Profile = () => {
                     <strong className={cx('userName')}>{dataStudent.student_name}</strong>
                     <p className={cx('userEmail')}>{dataStudent.email}</p>
                     <p className={cx('major')}>Major: {dataStudent.student_major.major_name}</p>
+                    <p className={cx('portfolio')}>Portfolio: {dataStudent.student_major.major_name}</p>
                     <EditStudent checkInformation={checkInformation} />
                 </div>
             </div>

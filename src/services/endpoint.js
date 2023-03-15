@@ -3,6 +3,7 @@ export const API_PROJECTS = {
     GET_PROJECTS: '/v1/projects',
     CREATE_PROJECTS: '/v1/projects',
 };
+
 export const API_MY_PROJECTS = {
     GET_MY_PROJECTS: '/v1/projects',
 };
@@ -28,4 +29,6 @@ export const API_APPLICATION = {
     GET_APPLICATION: '/v1/applications',
     POST_APPLICATION: '/v1/applications',
     STUDENT_APPLICATION_MY_PROJECT: '/v1/applications',
+    APCCEPT_STUDENT: '/v1/applications/accept',
+    DELETE_ACCEPT_STUDENT: '/v1/applications/delete',
 };
