@@ -1,10 +1,10 @@
 import classNames from 'classnames/bind';
 import styles from './myProject.module.scss';
-import { Avatar, List, Space, Spin, Button, Modal } from 'antd';
+import { Avatar, List, Space, Spin, Button, Modal, notification } from 'antd';
 import { StarOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons';
 import React from 'react';
 import { useEffect, useState } from 'react';
-import { getMyProject, getStudentsApply } from './fetcher';
+import { getMyProject, getStudentsApply, postAccetpStudent, putAccetpStudent  } from './fetcher';
 
 const IconText = ({ icon, text }) => (
     <Space>
@@ -21,6 +21,16 @@ const Myproject = () => {
     const [loading, setLoading] = useState(true);
     const [loadingModal, setLoadingModal] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const [acceptedStudents, setAcceptedStudents] = useState([]);
+    const [api, contextHolder] = notification.useNotification();
+
+    const openNotification = (placement) => {
+        api.info({
+            message: `Notification ${placement}`,
+            placement,
+        });
+    };
 
     const dataStudentApply = (project_id) => {
         setLoadingModal(true);
@@ -66,8 +76,46 @@ const Myproject = () => {
     const handleCancel = () => {
         setIsModalOpen(false);
     };
+
+    //Sử lý Accept and denied trong my project
+    const handleAccept = (application_id) => {
+        postAccetpStudent(application_id)
+            .then((payload) => {
+                console.log(payload);
+                if (payload.msg === 'Accept application successfully') {
+                    openNotification('Accept application successfully!');
+                       
+                    // Mark the accepted student
+                    setAcceptedStudents((prev) => [...prev, application_id]);
+                } else {
+                    openNotification('You have already applied this project!');
+                }
+            })
+            .catch((err) => {
+                openNotification('Apply failed!');
+            });
+    }
+    
+    const handleDeny = (application_ids) => {
+        
+        putAccetpStudent(application_ids)
+        .then((payload) => {
+            console.log(payload);
+            if (payload.msg === 'Accept application successfully') {
+                openNotification('Accept application successfully!');
+                   
+            } else {
+                openNotification('You have already applied this project!');
+            }
+        })
+        .catch((err) => {
+            openNotification('Apply failed!');
+        });
+    }
+
     return (
         <>
+          {contextHolder}
             <List
                 className={cx('wrapper')}
                 itemLayout="vertical"
@@ -135,7 +183,22 @@ const Myproject = () => {
                         itemLayout="horizontal"
                         dataSource={studentsApply}
                         renderItem={(item, index) => (
-                            <List.Item>
+                            
+                            <List.Item 
+                            actions={[
+                                <Button 
+                                type="primary" 
+                                disabled={acceptedStudents.includes(item.application_id)} // Disable the button for accepted students
+                                onClick={() => handleAccept(item.application_id)}>
+                                    Accept
+                                    </Button>,
+                                <Button 
+                                disabled={acceptedStudents.includes(item.application_id)} // Hide the button for accepted students
+                                onClick={() => handleDeny(item.application_id)}>
+                                    Deny
+                                    </Button>,
+                            ]}
+                        >
                                 <List.Item.Meta
                                     avatar={<Avatar src={item.application_student.avatar} />}
                                     title={<a href="https://ant.design">{item.application_student.student_name}</a>}
