@@ -10,6 +10,8 @@ import AccountItem from '~/components/AccountItem';
 import { SearchIcon } from '~/components/Icons';
 import { useDebounce } from '~/hooks';
 import styles from './Search.module.scss';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -18,28 +20,39 @@ function Search() {
     const [searchResult, setSearchResult] = useState([]);
     const [showResult, setShowResult] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     const debouncedValue = useDebounce(searchValue, 500);
 
     const inputRef = useRef();
 
     useEffect(() => {
-        if (!debouncedValue.trim()) {
+        
+        if (!searchValue.trim()) {
             setSearchResult([]);
             return;
         }
-
         const fetchApi = async () => {
             setLoading(true);
-
-            const result = await searchServices.search(debouncedValue);
-
-            setSearchResult(result);
-            setLoading(false);
-        };
-
+            try {
+                const result = await axios.get(`https://capstone-matching.herokuapp.com/api/v1/projects/home?project_name=${searchValue}`);
+                setSearchResult(result.data.projects.rows);
+                setLoading(false);
+                setError(null);
+            } catch (err) {
+                setLoading(false);
+                setError(err.message);
+            }
+    };
         fetchApi();
-    }, [debouncedValue]);
+    }, [searchValue]);
+    
+    const handleChange = (e) => {
+        const searchValue = e.target.value;
+        if (!searchValue.startsWith(' ')) {
+        setSearchValue(searchValue);
+        }
+        };
 
     const handleClear = () => {
         setSearchValue('');
@@ -50,17 +63,15 @@ function Search() {
     const handleHideResult = () => {
         setShowResult(false);
     };
-
-    const handleChange = (e) => {
-        const searchValue = e.target.value;
-        if (!searchValue.startsWith(' ')) {
-            setSearchValue(searchValue);
+     const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            e.stopPropagation();
+            setShowResult(true);
         }
     };
 
     return (
-        // Using a wrapper <div> tag around the reference element solves
-        // this by creating a new parentNode context.
         <div>
             <HeadlessTippy
                 interactive
@@ -68,10 +79,22 @@ function Search() {
                 render={(attrs) => (
                     <div className={cx('search-result')} tabIndex="-1" {...attrs}>
                         <PopperWrapper>
-                            <h4 className={cx('search-title')}>Accounts</h4>
-                            {searchResult.map((result) => (
-                                <AccountItem key={result.id} data={result} />
-                            ))}
+                            {error && <div>{error}</div>}
+                            {!error && searchResult.length === 0 && <div>No results found.</div>}
+                            {!error && searchResult.length > 0 && (
+                            <>
+                            <h4 className={cx('search-title')}>Name Project</h4>
+                            
+                            {searchResult.map((item) => {
+                                return (
+                                <div className={cx('search-popups')}>
+                                <h4><Link to={`/projectDetail/@${item.project_id}`}>{item.project_name}</Link></h4>
+                                </div>
+                                );
+                            }                                
+                            )}
+                            </>
+                              )}
                         </PopperWrapper>
                     </div>
                 )}
@@ -85,6 +108,7 @@ function Search() {
                         spellCheck={false}
                         onChange={handleChange}
                         onFocus={() => setShowResult(true)}
+                        onKeyDown={handleKeyDown}
                     />
                     {!!searchValue && !loading && (
                         <button className={cx('clear')} onClick={handleClear}>

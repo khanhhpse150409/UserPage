@@ -14,7 +14,7 @@ import Login from '~/pages/Login';
 import Register from '~/pages/Register';
 import ResetPassword from '~/pages/ResetPassword';
 import ForgotPassword from '~/pages/ForgotPassword';
-import ProjectDetail from '~/pages/ProjectDetail';
+import ProjectDetail from '~/pages/projectDetail';
 import Application from '~/pages/Application';
 import Myproject from '~/pages/Myproject';
 

@@ -199,7 +199,6 @@ const Myproject = () => {
                                     </Button>,
                                 <Button 
                                 disabled={acceptedStudents.includes(item.application_project.doer_id) || item.application_project.status === 'Accepted'}
-                                // disabled={acceptedStudents.includes(item.application_id)} // Hide the button for accepted students
                                 onClick={() => handleDeny(item.application_id)}>
                                     Deny
                                     </Button>,
