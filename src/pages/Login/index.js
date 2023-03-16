@@ -1,4 +1,4 @@
-import { LoginComponent } from '~/components/Login';
+import { LoginComponent } from '~/components/LoginVersion2';
 
 const Login = () => {
     return <LoginComponent />;

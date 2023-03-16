@@ -1,76 +1,204 @@
-import { useState } from 'react';
-import { Alert, Checkbox } from 'antd';
-import { LoginOutlined } from '@ant-design/icons';
-import { Login } from 'ant-design-pro';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { authService } from '~/services/authService';
+import { Link } from 'react-router-dom';
+import classNames from 'classnames';
+import { useIsHidden } from '../../hooks/useIsHidden';
+import styles from './login.module.css';
+import { validateLogin } from '../validateInput/validateInput';
+import Validate from '../validateInput';
+import useForm from '../useForm/useForm';
+import { GoogleOutlined, FacebookOutlined, MailOutlined, ArrowLeftOutlined } from '@ant-design/icons';
+import images from '~/assets/images';
+import { loginEmail } from './fetcher';
+import { notification } from 'antd';
 
-const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
+function Login() {
+    const { hidden, handleClick } = useIsHidden();
+    const navigate = useNavigate();
 
-const LoginVersion2 = () => {
-    const [notice, setNotice] = useState('');
-    const [type, setType] = useState('tab2');
-    const [autoLogin, setAutoLogin] = useState(true);
+    const { values, errors, handleChange } = useForm(login, validateLogin);
+    function login() {}
 
-    const onSubmit = (err, values) => {
-        console.log('value collected ->', {
-            ...values,
-            autoLogin,
+    const [api, contextHolder] = notification.useNotification();
+
+    const openNotification = (placement) => {
+        api.info({
+            message: `Notification ${placement}`,
+            placement: 'topRight',
         });
-
-        if (type === 'tab1') {
-            setNotice('');
-
-            if (!err && (values.username !== 'admin' || values.password !== '888888')) {
-                setTimeout(() => {
-                    setNotice('The combination of username and password is incorrect!');
-                }, 500);
-            }
-        }
     };
 
-    const onTabChange = (key) => {
-        setType(key);
+    const signWithGoogle = async () => {
+        await authService.loginWithGoogle();
+        navigate('/');
+        window.location.reload(false);
     };
 
-    const changeAutoLogin = (e) => {
-        setAutoLogin(e.target.checked);
+    useEffect(() => {
+        localStorage.clear();
+    });
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        const data = {
+            email: values.username,
+            password: values.password,
+        };
+
+        loginEmail(data)
+            .then((payload) => {
+                if (payload.mes === 'Login is successfully') {
+                    // Save the token and user type in local storage
+                    localStorage.setItem('student_id', payload.user.student_id);
+                    localStorage.setItem('avatar', payload.user.avatar);
+                    localStorage.setItem('access_token', payload.access_token);
+                    navigate('/');
+                    window.location.reload(false);
+                }
+                if (payload.msg === 'Error: Please provide email') {
+                    return openNotification('please provide email!');
+                }
+                if (payload.msg === 'Error: Please provide password') {
+                    return openNotification('please provide password!');
+                }
+                if (payload.msg === 'Not found account') {
+                    return openNotification('not found account!');
+                } else {
+                    return openNotification('login failed!');
+                }
+            })
+            .catch((err) => {
+                openNotification('login failed!');
+                throw new Error('Failed to log in');
+            });
     };
 
     return (
-        <div className="login-warp">
-            <Login defaultActiveKey={type} onTabChange={onTabChange} onSubmit={onSubmit} className="login-form">
-                <Tab key="tab1" tab="Account">
-                    {notice && <Alert style={{ marginBottom: 24 }} message={notice} type="error" showIcon closable />}
-                    <UserName name="username" rules={[{ required: true, message: 'Username is required' }]} />
-                    <Password name="password" rules={[{ required: true, message: 'Password is required' }]} />
-                </Tab>
-                <Tab key="tab2" tab="Mobile">
-                    <Mobile name="mobile" />
-                    <Captcha onGetCaptcha={() => console.log('Get captcha!')} name="captcha" />
-                </Tab>
-                <div>
-                    <Checkbox checked={autoLogin} onChange={changeAutoLogin}>
-                        Keep me logged in
-                    </Checkbox>
-                    <a style={{ float: 'right' }} href="">
-                        Forgot password
-                    </a>
+        <div>
+            {contextHolder}
+            <div>
+                <div className={styles.container}>
+                    <img
+                        src={images.login1}
+                        alt="custom/travelers-1"
+                        className={styles.travelers}
+                        style={{ right: 'calc(50% + 350px)' }}
+                    />
+                    <img
+                        src={images.login2}
+                        alt="custom/travelers-2"
+                        className={styles.travelers}
+                        style={{ left: 'calc(50% + 350px)' }}
+                    />
+                    <div className={styles.logo}>
+                        <Link to="/">
+                            <img alt="logo" src={images.loginCenter} />
+                        </Link>
+                    </div>
+                    <div />
+                    <div className={styles.login}>
+                        <div className={classNames(`${styles.formLogin}`, hidden && `${styles.formLoginHidden}`)}>
+                            <div className={styles.title}>
+                                <h1>Login</h1>
+                            </div>
+                            <Link style={{ background: '#4359ac', marginBottom: '16px', color: '#fff', width: '100%' }}>
+                                <div className={styles.icons}>
+                                    <FacebookOutlined style={{ fontSize: '30px' }} />
+                                </div>
+                                <div>
+                                    <span>With Facebook (update soon)</span>
+                                </div>
+                            </Link>
+                            <button
+                                style={{ background: '#c73534', marginBottom: '16px', color: '#fff', width: '100%' }}
+                                onClick={signWithGoogle}
+                            >
+                                <div className={styles.icons}>
+                                    <GoogleOutlined style={{ fontSize: '30px' }} />
+                                </div>
+                                <div>
+                                    <span>With Google</span>
+                                </div>
+                            </button>
+
+                            <button
+                                style={{
+                                    background: 'linear-gradient(114deg,#00e1d6,#66ede7)',
+                                    marginBottom: '16px',
+                                    color: '#fff',
+                                    width: '100%',
+                                }}
+                                onClick={handleClick}
+                            >
+                                <div className={styles.icons}>
+                                    <MailOutlined style={{ fontSize: '30px' }} />
+                                </div>
+                                <div>
+                                    <span>With Email</span>
+                                </div>
+                            </button>
+                        </div>
+                        <div className={classNames(`${styles.formLoginHidden}`, hidden && `${styles.formLoginEmail}`)}>
+                            <div className={styles.title}>
+                                <button className={styles.back} onClick={handleClick}>
+                                    <div className={styles.icons}>
+                                        <ArrowLeftOutlined style={{ fontSize: '25px', marginRight: '5px' }} />
+                                        <div>
+                                            <span>Back</span>
+                                        </div>
+                                    </div>
+                                </button>
+                                <h1>Login</h1>
+                            </div>
+                            <form className={styles.loginEmail} onSubmit={handleSubmit} noValidate>
+                                <div className={styles.input}>
+                                    <div className={styles.inputEmail}>
+                                        <input
+                                            type="text"
+                                            name="username"
+                                            placeholder="Fill your email Or UserName address"
+                                            onChange={handleChange}
+                                            value={values.username || ''}
+                                            required
+                                        />
+                                        <Validate errors={errors.username} />
+                                    </div>
+                                </div>
+                                <div className={styles.input}>
+                                    <div className={styles.inputEmail}>
+                                        <input
+                                            type="password"
+                                            name="password"
+                                            placeholder="Password"
+                                            onChange={handleChange}
+                                            value={values.password || ''}
+                                            required
+                                        />
+                                        <Validate errors={errors.password} />
+                                    </div>
+                                </div>
+                                <button>
+                                    <span>Log in</span>
+                                </button>
+                            </form>
+                            <div className={styles.register} style={{ background: 'none' }}>
+                                <Link to="/forgotPassword">
+                                    <span>Forgot your password?</span>
+                                </Link>
+                            </div>
+                        </div>
+                        <div className={styles.register}>
+                            <span>Are you new to F_macth?</span>
+                            <Link to="/register">
+                                <span>Register</span>
+                            </Link>
+                        </div>
+                    </div>
                 </div>
-                <Submit>
-                    <LoginOutlined />
-                    Login
-                </Submit>
-                <div>
-                    Other login methods
-                    <span className="icon icon-alipay" />
-                    <span className="icon icon-taobao" />
-                    <span className="icon icon-weibo" />
-                    <a style={{ float: 'right' }} href="">
-                        Register
-                    </a>
-                </div>
-            </Login>
+            </div>
         </div>
     );
-};
+}
 
-export default LoginVersion2;
+export default Login;
