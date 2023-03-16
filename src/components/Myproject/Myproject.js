@@ -38,6 +38,8 @@ const Myproject = () => {
         getStudentsApply(project_id)
             .then((payload) => {
                 setStudentsApply(payload.applications.rows);
+                const acceptedStudents = payload.applications.rows.map((applications) => applications.application_project.doer_id);
+                setAcceptedStudents(acceptedStudents);
                 setLoadingModal(false);
             })
             .catch((err) => {
@@ -46,17 +48,13 @@ const Myproject = () => {
             });
     };
 
-    
     useEffect(() => {
         const poster_id = localStorage.getItem('student_id');
         if (poster_id) {
+            dataStudentApply(poster_id);
             getMyProject(poster_id)
                 .then((payload) => {
                     setDataMyProject(payload.projects.rows);
-                    //lấy id của Doer để check accept
-                    const acceptedStudents = payload.projects.rows.map((project) => project.project_doer.student_id);
-                    setAcceptedStudents(acceptedStudents);
-                    console.log(acceptedStudents);
                     setLoading(false);
                 })
                 .catch((err) => {
@@ -90,8 +88,8 @@ const Myproject = () => {
                 if (payload.msg === 'Accept application successfully') {
                     openNotification('Accept application successfully!');
                     setLoading(false);
-                      // Cập nhật danh sách acceptedStudents với application_id của học sinh được chấp nhận
-                setAcceptedStudents([...acceptedStudents, application_id]);
+                    // Cập nhật danh sách acceptedStudents với application_id của học sinh được chấp nhận
+                    setAcceptedStudents([...acceptedStudents, application_id]);
                 } else {
                     openNotification('You have already applied this project!');
                 }
@@ -194,12 +192,14 @@ const Myproject = () => {
                             actions={[
                                 <Button 
                                 type="primary" 
-                                disabled={acceptedStudents.includes(item.application_id)}
+                                disabled={acceptedStudents.includes(item.application_project.doer_id) || item.application_project.status === 'Accepted'}
+                                // disabled={acceptedStudents.includes(item.application_id)}
                                 onClick={() => handleAccept(item.application_id)}>
                                     Accept
                                     </Button>,
                                 <Button 
-                                disabled={acceptedStudents.includes(item.application_id)} // Hide the button for accepted students
+                                disabled={acceptedStudents.includes(item.application_project.doer_id) || item.application_project.status === 'Accepted'}
+                                // disabled={acceptedStudents.includes(item.application_id)} // Hide the button for accepted students
                                 onClick={() => handleDeny(item.application_id)}>
                                     Deny
                                     </Button>,
