@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './myProject.module.scss';
-import { Avatar, List, Space, Spin, Button, Modal, notification } from 'antd';
+import { Avatar, List, Space, Spin, Button, Modal, notification, Tag } from 'antd';
 import { StarOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons';
 import React from 'react';
 import { useEffect, useState } from 'react';
@@ -21,7 +21,7 @@ const Myproject = () => {
     const [loading, setLoading] = useState(true);
     const [loadingModal, setLoadingModal] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
+    const [rejectedStudents, setRejectedStudents] = useState([]);
     const [acceptedStudents, setAcceptedStudents] = useState([]);
     const [api, contextHolder] = notification.useNotification();
 
@@ -46,17 +46,22 @@ const Myproject = () => {
             });
     };
 
+    
     useEffect(() => {
         const poster_id = localStorage.getItem('student_id');
         if (poster_id) {
             getMyProject(poster_id)
                 .then((payload) => {
                     setDataMyProject(payload.projects.rows);
+                    //lấy id của Doer để check accept
+                    const acceptedStudents = payload.projects.rows.map((project) => project.project_doer.student_id);
+                    setAcceptedStudents(acceptedStudents);
+                    console.log(acceptedStudents);
                     setLoading(false);
                 })
                 .catch((err) => {
                     console.log('err', err);
-                    setLoading(false);
+                    setLoading(false);  
                 });
         }
     }, []);
@@ -79,14 +84,14 @@ const Myproject = () => {
 
     //Sử lý Accept and denied trong my project
     const handleAccept = (application_id) => {
+        if (!acceptedStudents.includes(application_id)) {
         postAccetpStudent(application_id)
             .then((payload) => {
-                console.log(payload);
                 if (payload.msg === 'Accept application successfully') {
                     openNotification('Accept application successfully!');
-                       
-                    // Mark the accepted student
-                    setAcceptedStudents((prev) => [...prev, application_id]);
+                    setLoading(false);
+                      // Cập nhật danh sách acceptedStudents với application_id của học sinh được chấp nhận
+                setAcceptedStudents([...acceptedStudents, application_id]);
                 } else {
                     openNotification('You have already applied this project!');
                 }
@@ -94,16 +99,17 @@ const Myproject = () => {
             .catch((err) => {
                 openNotification('Apply failed!');
             });
+        }
     }
     
     const handleDeny = (application_ids) => {
-        
         putAccetpStudent(application_ids)
         .then((payload) => {
             console.log(payload);
             if (payload.msg === 'Accept application successfully') {
                 openNotification('Accept application successfully!');
-                   
+                setLoading(false);        
+              
             } else {
                 openNotification('You have already applied this project!');
             }
@@ -188,7 +194,7 @@ const Myproject = () => {
                             actions={[
                                 <Button 
                                 type="primary" 
-                                disabled={acceptedStudents.includes(item.application_id)} // Disable the button for accepted students
+                                disabled={acceptedStudents.includes(item.application_id)}
                                 onClick={() => handleAccept(item.application_id)}>
                                     Accept
                                     </Button>,
@@ -204,6 +210,9 @@ const Myproject = () => {
                                     title={<a href="https://ant.design">{item.application_student.student_name}</a>}
                                     description={`Email Address: ${item.application_student.email}`}
                                 />
+                                {rejectedStudents.includes(item.application_id) && (
+                                    <Tag color="grey">Rejected</Tag>
+                                    )}
                             </List.Item>
                         )}
                     />

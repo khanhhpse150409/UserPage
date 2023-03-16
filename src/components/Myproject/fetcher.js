@@ -14,5 +14,5 @@ export const postAccetpStudent = (application_id) => {
 };
 
 export const putAccetpStudent = (application_ids) => {
-    return put({ gw: GATEWAY.REACT_APP_API_URL })(`${API_APPLICATION.DELETE_ACCEPT_STUDENT}`, {application_ids});
+    return put({ gw: GATEWAY.REACT_APP_API_URL })(`${API_APPLICATION.DELETE_ACCEPT_STUDENT}?application_ids=${application_ids}`);
 };
