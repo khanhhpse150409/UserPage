@@ -100,6 +100,8 @@ const PostProject = () => {
     const handleCancel = () => {
         setIsModalOpen(false);
     };
+    const activeMajorList = listMajor.filter((major) => major.status === 'Active');
+    const activeCategoryList = listCategory.filter((major) => major.status === 'Active');
     return (
         <>
             {contextHolder}
@@ -132,14 +134,14 @@ const PostProject = () => {
 
                     <MyFormItem name="major" label="Major">
                         <Select>
-                            {listMajor.map((major) => (
+                            {activeMajorList.map((major) => (
                                 <Select.Option value={major.major_id}>{major.major_name}</Select.Option>
                             ))}
                         </Select>
                     </MyFormItem>
                     <MyFormItem name="category" label="Category">
                         <Select>
-                            {listCategory.map((category) => (
+                            {activeCategoryList.map((category) => (
                                 <Select.Option value={category.cate_id}>{category.cate_name}</Select.Option>
                             ))}
                         </Select>
