@@ -24,8 +24,15 @@ export const API_MAJORS = {
 export const API_CATEGORY = {
     LIST_CATEGORY: '/v1/categories',
 };
+
 export const API_APPLICATION = {
     GET_APPLICATION: '/v1/applications',
     POST_APPLICATION: '/v1/applications',
     STUDENT_APPLICATION_MY_PROJECT: '/v1/applications',
+};
+
+export const API_DELIVERABLE = {
+    CREATE_DELIVERABLE: '/v1/deliverables',
+    LIST_DELIVERABLE: '/v1/deliverables',
+    EDIT_DELIVERABLE: '/v1/deliverables',
 };
