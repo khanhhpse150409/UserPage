@@ -149,7 +149,7 @@ const Profile = () => {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('profile')}>
-            <Avatar
+                <Avatar
                     size={{
                         xs: 48,
                         sm: 64,
