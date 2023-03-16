@@ -126,3 +126,24 @@ export const post =
                 return { error: JSON.parse(err.msg) };
             });
     };
+export const postNoToken =
+    ({ data, gw }) =>
+    (url) => {
+        return fetch(`${getGateway(gw)}${url}`, {
+            method: 'POST',
+            headers: {
+                accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(async (res) => {
+                return res.json();
+            })
+            .catch((err) => {
+                if (err?.msg === 'Access token invalid') {
+                    return { message: ABORT_MESSAGE };
+                }
+                return { error: JSON.parse(err.msg) };
+            });
+    };

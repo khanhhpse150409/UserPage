@@ -39,3 +39,8 @@ export const API_DELIVERABLE = {
     LIST_DELIVERABLE: '/v1/deliverables',
     EDIT_DELIVERABLE: '/v1/deliverables',
 };
+
+export const API_AUTH = {
+    LOGIN_EMAIL: '/v1/auth/login',
+    REGISTER_EMAIL: '/v1/auth/register',
+};
