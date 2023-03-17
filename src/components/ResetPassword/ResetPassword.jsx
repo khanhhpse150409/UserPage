@@ -4,13 +4,59 @@ import Validate from '../validateInput';
 import useForm from '../useForm/useForm';
 import styles from '../ForgotPassword/ForgotPassword.module.css';
 import images from '~/assets/images';
+import { changePassWord } from './fetcher';
+import { notification } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 function ResetPassword() {
-    const { values, errors, handleChange, handleSubmit } = useForm(handleSubmits);
-    function handleSubmits() {}
+    const { values, errors, handleChange } = useForm();
+    const [api, contextHolder] = notification.useNotification();
+    const navigate = useNavigate();
+
+    const openNotification = (placement) => {
+        api.info({
+            message: `Notification ${placement}`,
+            placement: 'topRight',
+        });
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const data = {
+            new_password: values.password,
+            confirm_password: values.confirmPassword,
+            email: localStorage.getItem('emailForgotPassWord'),
+        };
+        console.log(data);
+
+        changePassWord(data)
+            .then((payload) => {
+                if (payload.msg === 'Change password successfully') {
+                    localStorage.clear();
+                    navigate('/login');
+                    return openNotification('change password successfully');
+                }
+                if (payload.msg === 'Error: Please provide new password') {
+                    return openNotification('please provide new password');
+                }
+                if (payload.msg === 'Error: Please provide confirm password') {
+                    return openNotification('please provide confirm password');
+                }
+                if (payload.msg === 'Confirm password not match with new password') {
+                    return openNotification('confirm password not match with new password');
+                } else {
+                    return openNotification('change password failed!');
+                }
+            })
+            .catch((err) => {
+                openNotification('change password failed!');
+                throw new Error('change password failed!');
+            });
+    };
 
     return (
         <div>
+            {contextHolder}
             <div>
                 <div className={styles.container}>
                     <img

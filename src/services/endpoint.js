@@ -44,3 +44,9 @@ export const API_AUTH = {
     LOGIN_EMAIL: '/v1/auth/login',
     REGISTER_EMAIL: '/v1/auth/register',
 };
+
+export const API_FORGOT_PASSWORD = {
+    SEND_RECOVERY_EMAIL: '/v1/forgotpass/send_recovery_email',
+    VERIFY_OTP: '/v1/forgotpass/verify_otp',
+    CHANGE_PASSWORD: '/v1/forgotpass/change_password',
+};

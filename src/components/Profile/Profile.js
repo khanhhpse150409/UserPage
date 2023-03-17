@@ -9,16 +9,6 @@ import { getStudent, getMyProject, getApplicationProject } from './fetcher';
 
 const cx = classNames.bind(styles);
 
-const data = Array.from({
-    length: 23,
-}).map((_, i) => ({
-    href: 'https://ant.design',
-    title: `Tên người đăng ${i}`,
-    avatar: `https://joesch.moe/api/v1/random?key=${i}`,
-    description: 'Tên bài Post(Project).',
-    content:
-        '(NỘI DUNG)  We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-}));
 const IconText = ({ icon, text }) => (
     <Space>
         {React.createElement(icon)}

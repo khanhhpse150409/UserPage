@@ -36,13 +36,9 @@ function RegisterV1() {
         registerEmail(data)
             .then((payload) => {
                 console.log(payload);
-                if (payload.mes === 'Login is successfully') {
-                    // Save the token and user type in local storage
-                    localStorage.setItem('student_id', payload.user.student_id);
-                    localStorage.setItem('avatar', payload.user.avatar);
-                    localStorage.setItem('access_token', payload.access_token);
-                    navigate('/');
-                    window.location.reload(false);
+                if (payload.mes === 'Register is successful') {
+                    navigate('/login');
+                    return openNotification('Register is successful');
                 }
                 if (payload.msg === 'Error: Please provide email') {
                     return openNotification('please provide email!');
@@ -56,11 +52,11 @@ function RegisterV1() {
                 if (payload.msg === 'Confirm password does not match with password') {
                     return openNotification('confirm password does not match with password!');
                 } else {
-                    return openNotification('register failed!');
+                    return openNotification('register failed1!');
                 }
             })
             .catch((err) => {
-                openNotification('register failed!');
+                openNotification('register failed123!');
                 throw new Error('Failed to register');
             });
     };
