@@ -5,7 +5,7 @@ import { StarOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons';
 import React, { useState, useEffect } from 'react';
 import EditStudent from './editStudent';
 import { useLocation } from 'react-router-dom';
-import { getStudent } from './fetcher';
+import { getStudent, getMyProject, getApplicationProject } from './fetcher';
 
 const cx = classNames.bind(styles);
 
@@ -28,7 +28,11 @@ const IconText = ({ icon, text }) => (
 
 const Profile = () => {
     const [dataStudent, setDataStudent] = useState(null);
+    const [dataMyProject, setDataMyProject] = useState(null);
+    const [dataApplicationProject, setApplicationProject] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [loadingMyProject, setLoadingMyProject] = useState(true);
+    const [loadingApplicationProject, setLoadingApplicationProject] = useState(true);
 
     const location = useLocation();
     const idStudent = location.pathname.substring(2);
@@ -42,6 +46,24 @@ const Profile = () => {
                 console.log('err', err);
                 setLoading(false);
             });
+        getMyProject(idStudent)
+            .then((payload) => {
+                setDataMyProject(payload.projects.rows);
+                setLoadingMyProject(false);
+            })
+            .catch((err) => {
+                console.log('err', err);
+                setLoadingMyProject(false);
+            });
+        getApplicationProject(idStudent)
+            .then((payload) => {
+                setApplicationProject(payload.applications.rows);
+                setLoadingApplicationProject(false);
+            })
+            .catch((err) => {
+                console.log('err', err);
+                setLoadingApplicationProject(false);
+            });
     }, [idStudent]);
     if (loading) {
         return (
@@ -54,7 +76,18 @@ const Profile = () => {
     }
 
     const checkInformation = idStudent === localStorage.getItem('student_id') ? true : false;
-    const myProject = () => {
+
+    const myProject = (loadingMyProject) => {
+        if (loadingMyProject) {
+            return (
+                <Space direction="vertical" style={{ width: '100%', marginTop: '100px' }}>
+                    <Spin tip="Loading" size="large">
+                        <div className="content" />
+                    </Spin>
+                </Space>
+            );
+        }
+
         return (
             <List
                 className={cx('wrapper')}
@@ -66,15 +99,10 @@ const Profile = () => {
                     },
                     pageSize: 5,
                 }}
-                dataSource={data}
-                footer={
-                    <div>
-                        <b>ant design</b> footer part
-                    </div>
-                }
+                dataSource={dataMyProject}
                 renderItem={(item) => (
                     <List.Item
-                        key={item.title}
+                        key={item.project_id}
                         actions={[
                             <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
                             <IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" />,
@@ -83,24 +111,31 @@ const Profile = () => {
                         extra={
                             <img
                                 width={272}
-                                alt="logo"
-                                src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                                alt="ima"
+                                src={
+                                    item.image || 'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png'
+                                }
                             />
                         }
                     >
-                        <List.Item.Meta
-                            avatar={<Avatar src={item.avatar} />}
-                            title={<a href={item.href}>{item.title}</a>}
-                            description={item.description}
-                        />
-                        {item.content}
+                        <List.Item.Meta title={item.project_name} description={item.status} />
+                        {item.description}
                     </List.Item>
                 )}
             />
         );
     };
-
-    const projectAplly = () => {
+    console.log(dataApplicationProject);
+    const projectAplly = (loadingApplicationProject) => {
+        if (loadingApplicationProject) {
+            return (
+                <Space direction="vertical" style={{ width: '100%', marginTop: '100px' }}>
+                    <Spin tip="Loading" size="large">
+                        <div className="content" />
+                    </Spin>
+                </Space>
+            );
+        }
         return (
             <List
                 className={cx('wrapper')}
@@ -112,7 +147,7 @@ const Profile = () => {
                     },
                     pageSize: 5,
                 }}
-                dataSource={data}
+                dataSource={dataApplicationProject}
                 footer={
                     <div>
                         <b>ant design</b> footer part
@@ -135,11 +170,10 @@ const Profile = () => {
                         }
                     >
                         <List.Item.Meta
-                            avatar={<Avatar src={item.avatar} />}
-                            title={<a href={item.href}>{item.title}</a>}
-                            description={item.description}
+                            title={<a href={item.href}>{item.application_project.project_name}</a>}
+                            description={`Status: ${item.application_project.status}`}
                         />
-                        {item.content}
+                        {item.application_project.description}
                     </List.Item>
                 )}
             />
@@ -172,10 +206,10 @@ const Profile = () => {
             <div>
                 <Tabs type="card" defaultActiveKey="1">
                     <Tabs.TabPane tab="My project" key="1">
-                        {myProject()}
+                        {myProject(loadingMyProject)}
                     </Tabs.TabPane>
                     <Tabs.TabPane tab="My project apply" key="2">
-                        {projectAplly()}
+                        {projectAplly(loadingApplicationProject)}
                     </Tabs.TabPane>
                 </Tabs>
             </div>

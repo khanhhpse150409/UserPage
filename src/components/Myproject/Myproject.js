@@ -4,7 +4,7 @@ import { Avatar, List, Space, Spin, Button, Modal, notification, Tag } from 'ant
 import { StarOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons';
 import React from 'react';
 import { useEffect, useState } from 'react';
-import { getMyProject, getStudentsApply, postAccetpStudent, putAccetpStudent  } from './fetcher';
+import { getMyProject, getStudentsApply, postAccetpStudent, putAccetpStudent } from './fetcher';
 
 const IconText = ({ icon, text }) => (
     <Space>
@@ -38,7 +38,9 @@ const Myproject = () => {
         getStudentsApply(project_id)
             .then((payload) => {
                 setStudentsApply(payload.applications.rows);
-                const acceptedStudents = payload.applications.rows.map((applications) => applications.application_project.doer_id);
+                const acceptedStudents = payload.applications.rows.map(
+                    (applications) => applications.application_project.doer_id,
+                );
                 setAcceptedStudents(acceptedStudents);
                 setLoadingModal(false);
             })
@@ -59,7 +61,7 @@ const Myproject = () => {
                 })
                 .catch((err) => {
                     console.log('err', err);
-                    setLoading(false);  
+                    setLoading(false);
                 });
         }
     }, []);
@@ -83,13 +85,30 @@ const Myproject = () => {
     //Sử lý Accept and denied trong my project
     const handleAccept = (application_id) => {
         if (!acceptedStudents.includes(application_id)) {
-        postAccetpStudent(application_id)
+            postAccetpStudent(application_id)
+                .then((payload) => {
+                    if (payload.msg === 'Accept application successfully') {
+                        openNotification('Accept application successfully!');
+                        setLoading(false);
+                        // Cập nhật danh sách acceptedStudents với application_id của học sinh được chấp nhận
+                        setAcceptedStudents([...acceptedStudents, application_id]);
+                    } else {
+                        openNotification('You have already applied this project!');
+                    }
+                })
+                .catch((err) => {
+                    openNotification('Apply failed!');
+                });
+        }
+    };
+
+    const handleDeny = (application_ids) => {
+        putAccetpStudent(application_ids)
             .then((payload) => {
+                console.log(payload);
                 if (payload.msg === 'Accept application successfully') {
                     openNotification('Accept application successfully!');
                     setLoading(false);
-                    // Cập nhật danh sách acceptedStudents với application_id của học sinh được chấp nhận
-                    setAcceptedStudents([...acceptedStudents, application_id]);
                 } else {
                     openNotification('You have already applied this project!');
                 }
@@ -97,29 +116,11 @@ const Myproject = () => {
             .catch((err) => {
                 openNotification('Apply failed!');
             });
-        }
-    }
-    
-    const handleDeny = (application_ids) => {
-        putAccetpStudent(application_ids)
-        .then((payload) => {
-            console.log(payload);
-            if (payload.msg === 'Accept application successfully') {
-                openNotification('Accept application successfully!');
-                setLoading(false);        
-              
-            } else {
-                openNotification('You have already applied this project!');
-            }
-        })
-        .catch((err) => {
-            openNotification('Apply failed!');
-        });
-    }
+    };
 
     return (
         <>
-          {contextHolder}
+            {contextHolder}
             <List
                 className={cx('wrapper')}
                 itemLayout="vertical"
@@ -187,31 +188,36 @@ const Myproject = () => {
                         itemLayout="horizontal"
                         dataSource={studentsApply}
                         renderItem={(item, index) => (
-                            
-                            <List.Item 
-                            actions={[
-                                <Button 
-                                type="primary" 
-                                disabled={acceptedStudents.includes(item.application_project.doer_id) || item.application_project.status === 'Accepted'}
-                                // disabled={acceptedStudents.includes(item.application_id)}
-                                onClick={() => handleAccept(item.application_id)}>
-                                    Accept
+                            <List.Item
+                                actions={[
+                                    <Button
+                                        type="primary"
+                                        disabled={
+                                            acceptedStudents.includes(item.application_project.doer_id) ||
+                                            item.application_project.status === 'Accepted'
+                                        }
+                                        // disabled={acceptedStudents.includes(item.application_id)}
+                                        onClick={() => handleAccept(item.application_id)}
+                                    >
+                                        Accept
                                     </Button>,
-                                <Button 
-                                disabled={acceptedStudents.includes(item.application_project.doer_id) || item.application_project.status === 'Accepted'}
-                                onClick={() => handleDeny(item.application_id)}>
-                                    Deny
+                                    <Button
+                                        disabled={
+                                            acceptedStudents.includes(item.application_project.doer_id) ||
+                                            item.application_project.status === 'Accepted'
+                                        }
+                                        onClick={() => handleDeny(item.application_id)}
+                                    >
+                                        Deny
                                     </Button>,
-                            ]}
-                        >
+                                ]}
+                            >
                                 <List.Item.Meta
                                     avatar={<Avatar src={item.application_student.avatar} />}
                                     title={<a href="https://ant.design">{item.application_student.student_name}</a>}
                                     description={`Email Address: ${item.application_student.email}`}
                                 />
-                                {rejectedStudents.includes(item.application_id) && (
-                                    <Tag color="grey">Rejected</Tag>
-                                    )}
+                                {rejectedStudents.includes(item.application_id) && <Tag color="grey">Rejected</Tag>}
                             </List.Item>
                         )}
                     />
