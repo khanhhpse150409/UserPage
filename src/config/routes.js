@@ -1,7 +1,7 @@
 const routes = {
     home: '/',
     following: '/following',
-    profile: '/@:nickname',
+    profile: '/:nickname',
     upload: '/upload',
     search: '/search',
     live: '/live',
@@ -9,7 +9,7 @@ const routes = {
     register: '/register',
     resetPassword: '/resetPassword',
     forgotPassword: '/forgotPassword',
-    projectDetail: '/projectDetail/@:projectId',
+    projectDetail: '/projectDetail/:projectId',
     application: '/application',
     myproject: '/myproject',
 };

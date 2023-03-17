@@ -73,6 +73,7 @@ const ProjectDetail = () => {
     return (
         <>
             {contextHolder}
+            {project && (
             <List
                 className={cx('wrapper')}
                 itemLayout="vertical"
@@ -115,6 +116,7 @@ const ProjectDetail = () => {
                     </List.Item>
                 )}
             />
+            )}
         </>
     );
 };

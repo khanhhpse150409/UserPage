@@ -88,7 +88,7 @@ function Search() {
                             {searchResult.map((item) => {
                                 return (
                                 <div className={cx('search-popups')}>
-                                <h4><Link to={`/projectDetail/@${item.project_id}`}>{item.project_name}</Link></h4>
+                                <h4><Link to={`/projectDetail/${item.project_id}`}>{item.project_name}</Link></h4>
                                 </div>
                                 );
                             }                                
