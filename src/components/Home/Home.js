@@ -4,6 +4,7 @@ import { Avatar, List, Space, Spin } from 'antd';
 import { StarOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons';
 import React, { useState, useEffect } from 'react';
 import { getListProject } from './fetcher';
+import { useLocation } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -17,16 +18,22 @@ const IconText = ({ icon, text }) => (
 const Home = () => {
     const [listDataProject, setListDataProject] = useState(null);
     const [loading, setLoading] = useState(true);
+    const searchedProjects = useLocation()?.state?.searchedProjects;
     useEffect(() => {
+    if (searchedProjects) {
+      setListDataProject(searchedProjects);
+      setLoading(false);
+    } else {
         getListProject()
             .then((payload) => {
-                setListDataProject(payload?.projects.rows);
+                setListDataProject(payload?.projects?.rows);
                 setLoading(false);
             })
             .catch((err) => {
                 console.log('err', err);
             });
-    }, []);
+    }
+}, [searchedProjects]);
 
     if (loading) {
         return (
