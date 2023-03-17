@@ -11,16 +11,21 @@ import { SearchIcon } from '~/components/Icons';
 import { useDebounce } from '~/hooks';
 import styles from './Search.module.scss';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
+
 
 const cx = classNames.bind(styles);
 
 function Search() {
+    const navigate = useNavigate();
     const [searchValue, setSearchValue] = useState('');
     const [searchResult, setSearchResult] = useState([]);
     const [showResult, setShowResult] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+
+    const [searchedProjects, setSearchedProjects] = useState([]);
 
     const debouncedValue = useDebounce(searchValue, 500);
 
@@ -37,6 +42,8 @@ function Search() {
             try {
                 const result = await axios.get(`https://capstone-matching.herokuapp.com/api/v1/projects/home?project_name=${searchValue}`);
                 setSearchResult(result.data.projects.rows);
+                setSearchedProjects(result.data.projects.rows);
+                console.log(result.data.projects.rows);
                 setLoading(false);
                 setError(null);
             } catch (err) {
@@ -44,7 +51,7 @@ function Search() {
                 setError(err.message);
             }
     };
-        fetchApi();
+    fetchApi();
     }, [searchValue]);
     
     const handleChange = (e) => {
@@ -70,6 +77,11 @@ function Search() {
             setShowResult(true);
         }
     };
+
+    const handleSearch = () => {
+        navigate('/', { state: { searchedProjects } });
+        window.location.reload();
+      };
 
     return (
         <div>
@@ -117,7 +129,7 @@ function Search() {
                     )}
                     {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
 
-                    <button className={cx('search-btn')} onMouseDown={(e) => e.preventDefault()}>
+                    <button className={cx('search-btn')} onClick={handleSearch} onMouseDown={(e) => e.preventDefault()}>
                         <SearchIcon />
                     </button>
                 </div>
