@@ -11,9 +11,9 @@ import Upload from '~/pages/Upload';
 import Search from '~/pages/Search';
 import Live from '~/pages/Live';
 import Login from '~/pages/Login';
-// import Register from '~/pages/Register';
-// import ResetPassword from '~/pages/ResetPassword';
-// import ForgotPassword from '~/pages/ForgotPassword';
+import Register from '~/pages/Register';
+import ResetPassword from '~/pages/ResetPassword';
+import ForgotPassword from '~/pages/ForgotPassword';
 import ProjectDetail from '~/pages/projectDetail';
 import Application from '~/pages/Application';
 import Myproject from '~/pages/Myproject';
@@ -29,9 +29,9 @@ const publicRoutes = [
     { path: config.routes.myproject, component: Myproject },
     { path: config.routes.upload, component: Upload, layout: HeaderOnly },
     { path: config.routes.login, component: Login, layout: HeaderOnly },
-    // { path: config.routes.register, component: Register, layout: HeaderOnly },
-    // { path: config.routes.resetPassword, component: ResetPassword, layout: HeaderOnly },
-    // { path: config.routes.forgotPassword, component: ForgotPassword, layout: HeaderOnly },
+    { path: config.routes.register, component: Register, layout: HeaderOnly },
+    { path: config.routes.resetPassword, component: ResetPassword, layout: HeaderOnly },
+    { path: config.routes.forgotPassword, component: ForgotPassword, layout: HeaderOnly },
     { path: config.routes.search, component: Search, layout: null },
 ];
 
