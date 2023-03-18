@@ -80,7 +80,7 @@ function RegisterV1() {
                     />
                     <div className={styles.logo}>
                         <Link to="/">
-                            <img alt="Trip diary logo" src={images.loginCenter} />
+                            <img alt="Trip diary logo" src={images.loginCenter} style={{ width: '200px' }} />
                         </Link>
                     </div>
                     <div></div>

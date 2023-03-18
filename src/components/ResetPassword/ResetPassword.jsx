@@ -73,7 +73,7 @@ function ResetPassword() {
                     />
                     <div className={styles.logo}>
                         <Link to="/">
-                            <img alt="logo" src={images.loginCenter} />
+                            <img alt="logo" src={images.loginCenter} style={{ width: '200px' }} />
                         </Link>
                     </div>
                     <div />
