@@ -37,6 +37,7 @@ const Myproject = () => {
 
         getStudentsApply(project_id)
             .then((payload) => {
+                console.log(payload);
                 setStudentsApply(payload.applications.rows);
                 const acceptedStudents = payload.applications.rows.map(
                     (applications) => applications.application_project.doer_id,
@@ -90,6 +91,7 @@ const Myproject = () => {
                     if (payload.msg === 'Accept application successfully') {
                         openNotification('Accept application successfully!');
                         setLoading(false);
+                        setIsModalOpen(false);
                         // Cập nhật danh sách acceptedStudents với application_id của học sinh được chấp nhận
                         setAcceptedStudents([...acceptedStudents, application_id]);
                     } else {
@@ -108,6 +110,7 @@ const Myproject = () => {
                 console.log(payload);
                 if (payload.msg === 'Accept application successfully') {
                     openNotification('Accept application successfully!');
+                    setIsModalOpen(false);
                     setLoading(false);
                 } else {
                     openNotification('You have already applied this project!');
@@ -117,7 +120,7 @@ const Myproject = () => {
                 openNotification('Apply failed!');
             });
     };
-
+    console.log(studentsApply);
     return (
         <>
             {contextHolder}
@@ -192,20 +195,13 @@ const Myproject = () => {
                                 actions={[
                                     <Button
                                         type="primary"
-                                        disabled={
-                                            acceptedStudents.includes(item.application_project.doer_id) ||
-                                            item.application_project.status === 'Accepted'
-                                        }
-                                        // disabled={acceptedStudents.includes(item.application_id)}
+                                        disabled={studentsApply[0].application_project.doer_id ? true : false}
                                         onClick={() => handleAccept(item.application_id)}
                                     >
                                         Accept
                                     </Button>,
                                     <Button
-                                        disabled={
-                                            acceptedStudents.includes(item.application_project.doer_id) ||
-                                            item.application_project.status === 'Accepted'
-                                        }
+                                        disabled={studentsApply[0].application_project.doer_id ? true : false}
                                         onClick={() => handleDeny(item.application_id)}
                                     >
                                         Deny
