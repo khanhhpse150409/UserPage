@@ -12,6 +12,7 @@ const routes = {
     projectDetail: '/projectDetail/:projectId',
     application: '/application',
     myproject: '/myproject',
+    payment: '/payment/:application_id',
 };
 
 export default routes;

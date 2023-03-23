@@ -115,7 +115,7 @@ const Profile = () => {
             />
         );
     };
-    console.log(dataApplicationProject);
+    
     const projectAplly = (loadingApplicationProject) => {
         if (loadingApplicationProject) {
             return (

@@ -17,6 +17,7 @@ import ForgotPassword from '~/pages/ForgotPassword';
 import ProjectDetail from '~/pages/projectDetail';
 import Application from '~/pages/Application';
 import Myproject from '~/pages/Myproject';
+import Payment from '~/pages/Payment';
 
 // Public routes
 const publicRoutes = [
@@ -33,6 +34,7 @@ const publicRoutes = [
     { path: config.routes.resetPassword, component: ResetPassword, layout: HeaderOnly },
     { path: config.routes.forgotPassword, component: ForgotPassword, layout: HeaderOnly },
     { path: config.routes.search, component: Search, layout: null },
+    { path: config.routes.payment, component: Payment},
 ];
 
 const privateRoutes = [];

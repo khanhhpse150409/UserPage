@@ -37,7 +37,6 @@ const Myproject = () => {
 
         getStudentsApply(project_id)
             .then((payload) => {
-                console.log(payload);
                 setStudentsApply(payload.applications.rows);
                 const acceptedStudents = payload.applications.rows.map(
                     (applications) => applications.application_project.doer_id,
@@ -105,6 +104,7 @@ const Myproject = () => {
     };
 
     const handleDeny = (application_ids) => {
+        if (!rejectedStudents.includes(application_ids)) {
         putAccetpStudent(application_ids)
             .then((payload) => {
                 console.log(payload);
@@ -112,6 +112,8 @@ const Myproject = () => {
                     openNotification('Accept application successfully!');
                     setIsModalOpen(false);
                     setLoading(false);
+
+                    setRejectedStudents([...acceptedStudents, application_ids]);
                 } else {
                     openNotification('You have already applied this project!');
                 }
@@ -119,8 +121,9 @@ const Myproject = () => {
             .catch((err) => {
                 openNotification('Apply failed!');
             });
+        }
     };
-    console.log(studentsApply);
+
     return (
         <>
             {contextHolder}
@@ -213,7 +216,9 @@ const Myproject = () => {
                                     title={<a href="https://ant.design">{item.application_student.student_name}</a>}
                                     description={`Email Address: ${item.application_student.email}`}
                                 />
-                                {rejectedStudents.includes(item.application_id) && <Tag color="grey">Rejected</Tag>}
+                                {item.status === "Submitted" && !rejectedStudents.includes(item.application_id) &&
+                                    <Button href={`/Payment/${item.application_id}`} color="blue">Deliverable</Button>
+                                }
                             </List.Item>
                         )}
                     />

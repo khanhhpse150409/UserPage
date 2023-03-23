@@ -38,6 +38,7 @@ export const API_DELIVERABLE = {
     CREATE_DELIVERABLE: '/v1/deliverables',
     LIST_DELIVERABLE: '/v1/deliverables',
     EDIT_DELIVERABLE: '/v1/deliverables',
+    GET_DELIVERABLE: '/v1/deliverables',
 };
 
 export const API_AUTH = {
@@ -50,3 +51,8 @@ export const API_FORGOT_PASSWORD = {
     VERIFY_OTP: '/v1/forgotpass/verify_otp',
     CHANGE_PASSWORD: '/v1/forgotpass/change_password',
 };
+
+export const API_PAYMENT = {
+    GET_PAYMENT: '/v1/stripe',
+    POST_PAYMENT: '/v1/stripe/create-checkout-session',
+}

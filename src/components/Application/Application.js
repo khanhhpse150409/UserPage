@@ -77,7 +77,7 @@ const Application = () => {
                         title: payload.deliverables.rows[0].title,
                         description: payload.deliverables.rows[0].description,
                         file: payload.deliverables.rows[0].file,
-                        deliverable_id: payload.deliverables.rows[0].deliverable_id,
+                        // deliverable_id: payload.deliverables.rows[0].deliverable_id,
                     });
                     setLoadingInitialValue(false);
                 }
@@ -118,7 +118,7 @@ const Application = () => {
             description: value.description || '',
             file: file || initialValue.file,
             application_id: applicationId || '',
-            deliverable_id: initialValue.deliverable_id || '',
+            // deliverable_id: initialValue.deliverable_id || '',
         };
 
         Object.entries(initialValue).length === 0
