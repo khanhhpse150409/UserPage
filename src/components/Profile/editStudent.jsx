@@ -52,6 +52,7 @@ const EditStudent = ({ checkInformation }) => {
         avatar: dataStudent?.avatar || '',
         email: dataStudent?.email || '',
         portfolio: dataStudent?.portfolio || '',
+        major: dataStudent?.student_major?.major_name || '',
     };
 
     // Handle form submission
@@ -61,6 +62,7 @@ const EditStudent = ({ checkInformation }) => {
             student_name: values.name || '',
             avatar: file || dataStudent?.avatar,
             portfolio: values.portfolio || '',
+            major: values.major || '',
         };
         editStudent(student)
             .then((payload) => {
@@ -184,6 +186,17 @@ const EditStudent = ({ checkInformation }) => {
                     >
                         <Input disabled />
                     </Form.Item>
+                    <Form.Item
+                        label="Major"
+                        name="major"
+                        rules={[
+                            {
+                                required: true,
+                            },
+                        ]}
+                    >
+                        <Input />
+                        </Form.Item>
                     <Form.Item
                         label="Email"
                         name="email"

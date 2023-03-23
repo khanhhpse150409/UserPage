@@ -74,21 +74,22 @@ const Payment = () => {
           </div>
         </div>
           ) : (
-        <div>
+        <div >
         { dataDeliverables && dataDeliverables.map((item) => (
-          <div className="titles" key={item.deliverable_id}>{item.title}
+          <div className="titles" key={item.deliverable_id}>Tittle: {item.title}
             <h4 className="product-title">Description: {item.description}</h4>
             <h3 className="price">Price: {item.deliverable_application.price} vnd</h3>
             <div className="item_img" style={{ paddingRight: '150px' }}>
                 <img src={item.deliverable_application.application_project.image} alt="project" style={{ maxWidth: '100%', maxHeight: '300px' }} />
             </div>
+            <div className="buttons-container" style={{justifyContent: 'space-between', display: 'flex'}}>
             <Button  href={item.file}>Dowload file here</Button>
+            <Button onClick={handlePayment}>Payment Now</Button>
+          </div>
           </div>
             ))}
-          <div className="cart-items">
-          <Button onClick={handlePayment} >Payment Now</Button>
-          </div>
         </div>
+        
         )}
     </div>
   );

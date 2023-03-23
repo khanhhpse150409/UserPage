@@ -175,6 +175,7 @@ const Myproject = () => {
                 )}
             />
             <Modal
+                style={{width: '700px'}}
                 title="List Student Applications"
                 open={isModalOpen}
                 onCancel={handleCancel}
